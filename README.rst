@@ -1,0 +1,5 @@
+=====
+lager
+=====
+
+stupid simple logging

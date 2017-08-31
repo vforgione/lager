@@ -1,0 +1,75 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "0c1acdc4167ef8079867843c20c78201a85d793f1d50af944fdee623a873ea26"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "arrow": {
+            "version": "==0.10.0"
+        },
+        "python-dateutil": {
+            "version": "==2.6.1"
+        },
+        "six": {
+            "version": "==1.10.0"
+        }
+    },
+    "develop": {
+        "capturer": {
+            "version": "==2.4"
+        },
+        "certifi": {
+            "version": "==2017.7.27.1"
+        },
+        "chardet": {
+            "version": "==3.0.4"
+        },
+        "coverage": {
+            "version": "==4.4.1"
+        },
+        "humanfriendly": {
+            "version": "==4.4.1"
+        },
+        "idna": {
+            "version": "==2.6"
+        },
+        "pkginfo": {
+            "version": "==1.4.1"
+        },
+        "py": {
+            "version": "==1.4.34"
+        },
+        "pytest": {
+            "version": "==3.2.1"
+        },
+        "requests": {
+            "version": "==2.18.4"
+        },
+        "requests-toolbelt": {
+            "version": "==0.8.0"
+        },
+        "setuptools": {
+            "version": "==36.3.0"
+        },
+        "tqdm": {
+            "version": "==4.15.0"
+        },
+        "twine": {
+            "version": "==1.9.1"
+        },
+        "urllib3": {
+            "version": "==1.22"
+        },
+        "wheel": {
+            "version": "==0.29.0"
+        }
+    }
+}
