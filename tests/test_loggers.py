@@ -127,4 +127,3 @@ class TestLogger:
         output = self.stream.getvalue()
 
         assert output == 'ohai: hello'
-g
