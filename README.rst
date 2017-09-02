@@ -11,12 +11,12 @@ Installation
 
 ``lager`` is available on PyPI::
 
-.. code: bash
+.. code-block: bash
    pip install lager
 
 Or if you want to live on the edge::
 
-.. code: bash
+.. code-block: bash
    pip install git+git://github.com/vforgione/lager@master
 
 
