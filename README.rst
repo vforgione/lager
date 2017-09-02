@@ -2,4 +2,4 @@
 lager
 =====
 
-stupid simple logging
+stupid simple logging 🍺
