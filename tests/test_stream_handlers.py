@@ -1,4 +1,6 @@
+import codecs
 import io
+import os.path
 
 from capturer import CaptureOutput
 
@@ -86,3 +88,25 @@ class TestStdErrHandler:
             self.handler.write_entry(entry, verbosity=Verbosity.info)
         output = co.get_text()
         assert output == entry
+
+    def test_write_massive_entry_doesnt_truncate(self):
+        # something i've run into in the past is stdout logging truncating
+        # long lines -- most typically outputting json dumps
+        fname = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            'fixtures', 'lorem-ipsum.txt')
+        with codecs.open(fname, 'r', 'utf8') as fh:
+            entry = fh.read()
+
+        with CaptureOutput() as co:
+            self.handler.write_entry(entry, verbosity=Verbosity.info)
+            self.handler.write_entry(entry, verbosity=Verbosity.info)
+            self.handler.write_entry(entry, verbosity=Verbosity.info)
+            self.handler.write_entry(entry, verbosity=Verbosity.info)
+        output = co.get_text()
+
+        entries = output.split('\n')
+        assert len(entries) == 4
+        for entry in entries:
+            assert entry.endswith('Nunc fermentum elit a dolor rhoncus varius.')
+            assert len(entry) == 81773
