@@ -1,14 +1,14 @@
 import re
 from io import StringIO
 
+from lager.enums import Verbosity
 from lager.handlers import StreamHandler
-from lager.levels import LogLevel
 from lager.loggers import Logger
 
 
 DEFAULT_TEMPLATE_PATTERN = re.compile(
     '(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}[+-]\d{2}:\d{2}) '
-    '(?P<level>[A-Z]+) '
+    '(?P<verbosity>[A-Z]+) '
     '(?P<name>\w+): '
     '(?P<message>.*)'
 )
@@ -17,7 +17,8 @@ DEFAULT_TEMPLATE_PATTERN = re.compile(
 class TestLogger:
     def setup_method(self, mtd):
         self.stream = StringIO()
-        self.handler = StreamHandler(stream=self.stream, level=LogLevel.debug)
+        self.handler = StreamHandler(
+            stream=self.stream, verbosity=Verbosity.debug)
         self.logger = Logger(
             name='test', handlers=[self.handler]
         )
@@ -91,7 +92,7 @@ class TestLogger:
         self.stream.seek(0)
         output = self.stream.getvalue()
 
-        assert output == 'test_loggers: hello'
+        assert output == 'test_loggers: hello\n'
 
     def test_get_kwargs(self):
         kwargs = self.logger._get_kwargs()
@@ -107,7 +108,7 @@ class TestLogger:
         self.stream.seek(0)
         output = self.stream.getvalue()
 
-        assert output == 'now: hello'
+        assert output == 'now: hello\n'
 
     def test_provide_context_functional_value(self):
         def get_time():
@@ -118,7 +119,7 @@ class TestLogger:
         self.stream.seek(0)
         output = self.stream.getvalue()
 
-        assert output == 'now: hello'
+        assert output == 'now: hello\n'
 
     def test_provide_context_for_non_canonical_key(self):
         self.logger.template = '{derp}: {message}'
@@ -126,4 +127,4 @@ class TestLogger:
         self.stream.seek(0)
         output = self.stream.getvalue()
 
-        assert output == 'ohai: hello'
+        assert output == 'ohai: hello\n'

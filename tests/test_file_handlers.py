@@ -1,8 +1,8 @@
 import codecs
 import os
 
+from lager.enums import Verbosity
 from lager.handlers import FileHandler
-from lager.levels import LogLevel
 
 
 class TestFileHandler:
@@ -17,7 +17,7 @@ class TestFileHandler:
     def test_write_entry(self):
         entry = 'Hello, world!'
 
-        self.handler.write_entry(entry, level=LogLevel.info)
+        self.handler.write_entry(entry, verbosity=Verbosity.info)
         with codecs.open(self.filename, 'r', encoding='utf8') as fh:
             output = [line for line in fh]
 
@@ -26,7 +26,7 @@ class TestFileHandler:
     def test_write_entry_non_ascii(self):
         entry = '안녕하세요'
 
-        self.handler.write_entry(entry, level=LogLevel.info)
+        self.handler.write_entry(entry, verbosity=Verbosity.info)
         with codecs.open(self.filename, 'r', encoding='utf8') as fh:
             output = [line for line in fh]
 

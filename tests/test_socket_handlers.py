@@ -1,9 +1,9 @@
 import os
 import socket
 
+from lager.enums import Verbosity
 from lager.handlers import SyslogHandler, TcpHandler, TcpIPv6Handler, \
     UdpHandler, UdpIPv6Handler, UnixSocketHandler
-from lager.levels import LogLevel
 
 
 class TestSyslogHandler:
@@ -19,7 +19,7 @@ class TestSyslogHandler:
 
     def test_write_entry(self):
         message = 'Hello, world!'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -28,7 +28,7 @@ class TestSyslogHandler:
                 messages.append(data)
                 break
 
-        priority = self.handler._get_priority(LogLevel.info)
+        priority = self.handler._get_priority(Verbosity.info)
         msg = '<{}>{}\000'.format(priority, message)
         expected = [bytes(msg, 'utf8')]
 
@@ -36,7 +36,7 @@ class TestSyslogHandler:
 
     def test_write_entry_non_ascii(self):
         message = '안녕하세요'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -45,7 +45,7 @@ class TestSyslogHandler:
                 messages.append(data)
                 break
 
-        priority = self.handler._get_priority(LogLevel.info)
+        priority = self.handler._get_priority(Verbosity.info)
         msg = '<{}>{}\000'.format(priority, message)
         expected = [bytes(msg, 'utf8')]
 
@@ -67,7 +67,7 @@ class TestTcpHandler:
 
     def test_write_entry(self):
         message = 'Hello, world!'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -82,7 +82,7 @@ class TestTcpHandler:
 
     def test_write_entry_non_ascii(self):
         message = '안녕하세요'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -111,7 +111,7 @@ class TestTcpIPv6Handler:
 
     def test_write_entry(self):
         message = 'Hello, world!'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -126,7 +126,7 @@ class TestTcpIPv6Handler:
 
     def test_write_entry_non_ascii(self):
         message = '안녕하세요'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -153,7 +153,7 @@ class TestUdpHandler:
 
     def test_write_entry(self):
         message = 'Hello, world!'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -167,7 +167,7 @@ class TestUdpHandler:
 
     def test_write_entry_non_ascii(self):
         message = '안녕하세요'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -193,7 +193,7 @@ class TestUdpIPv6Handler:
 
     def test_write_entry(self):
         message = 'Hello, world!'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -207,7 +207,7 @@ class TestUdpIPv6Handler:
 
     def test_write_entry_non_ascii(self):
         message = '안녕하세요'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -234,7 +234,7 @@ class TestUnixHandler:
 
     def test_write_entry(self):
         message = 'Hello, world!'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
@@ -248,7 +248,7 @@ class TestUnixHandler:
 
     def test_write_entry_non_ascii(self):
         message = '안녕하세요'
-        self.handler.write_entry(message, level=LogLevel.info)
+        self.handler.write_entry(message, verbosity=Verbosity.info)
 
         messages = []
         while True:
