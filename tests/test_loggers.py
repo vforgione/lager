@@ -1,6 +1,8 @@
 import re
 from io import StringIO
 
+from capturer import CaptureOutput
+
 from lager.enums import Verbosity
 from lager.handlers import StreamHandler
 from lager.loggers import Logger
@@ -93,6 +95,38 @@ class TestLogger:
         output = self.stream.getvalue()
 
         assert output == 'test_loggers: hello\n'
+
+    def test_setting_verbosity(self):
+        logger = Logger('test', verbosity=Verbosity.error)
+        entry = 'hello'
+
+        with CaptureOutput() as co:
+            logger.info(entry)
+        output = co.get_text()
+        assert output == ''
+
+    def test_setting_additional_context(self):
+        self.logger.additional_context = {'time': 'now'}
+
+        entry = 'hello'
+        self.logger.info(entry)
+        self.stream.seek(0)
+        output = self.stream.getvalue()
+
+        assert output.startswith('now')
+
+    def test_setting_additional_context_func(self):
+        def get_time():
+            return 'nowish'
+
+        self.logger.additional_context = {'time': get_time}
+
+        entry = 'hello'
+        self.logger.info(entry)
+        self.stream.seek(0)
+        output = self.stream.getvalue()
+
+        assert output.startswith('nowish')
 
     def test_get_kwargs(self):
         kwargs = self.logger._get_kwargs()

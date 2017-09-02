@@ -82,20 +82,32 @@ class Logger:
             template: Optional[str]=None,
             timezone: Optional[str]=None,
             handlers: Optional[List[Handler]]=None,
-            ensure_new_line: Optional[bool]=True) -> None:
+            verbosity: Optional[Verbosity]=None,
+            ensure_new_line: Optional[bool]=True,
+            additional_context: Optional[dict]=None) -> None:
         """Instantiates a new ``Logger``.
         
         :param name: the name of the logger
         :param template: the template for log entries this logger creates
         :param timezone: the local timezone
         :param handlers: handlers used to write the log entries
+        :param verbosity: the verbosity to set for the default handler
         :param ensure_new_line: should log entries end with a new line
+        :param additional_context: default interpolation overrides
         """
         self.name: str = name
         self.template: str = template or DEFAULT_TEMPLATE
         self.timezone: str = timezone
-        self.handlers: List[Handler] = handlers or [StdOutHandler()]
         self.ensure_new_line: bool = ensure_new_line
+        self.additional_context: dict = additional_context or {}
+
+        if not handlers:
+            handler = StdOutHandler()
+            if verbosity:
+                handler.verbosity = verbosity
+            self.handlers: List[Handler] = [handler]
+        else:
+            self.handlers: List[Handler] = handlers
 
     def debug(self, message: str, **context) -> None:
         """Create a log entry with a verbosity of **debug**.
@@ -209,7 +221,8 @@ class Logger:
             func = '__main__'
         module_ = inspect.getmodulename(fname)
 
-        return {  # level and message added in ``_log``
+        # build out kwargs and augment with additional context
+        kwargs = {  # level and message added in ``_log``
             'name': self.name,
             'time': now,
             'source': fname,
@@ -218,3 +231,10 @@ class Logger:
             'module': module_,
             'pid': os.getpid(),
         }
+        additional_context = {
+            key: value() if callable(value) else value
+            for key, value in self.additional_context.items()
+        }
+        kwargs.update(additional_context)
+
+        return kwargs
