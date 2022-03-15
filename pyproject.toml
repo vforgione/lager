@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "lager"
+version = "2022.03.13"
+description = "Stupid Simple Logging 🍺"
+authors = ["Vince Forgione <vince.4gione@icloud.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+isort = "^5.10.1"
+pylint = "^2.12.2"
+pytest = "^7.0.1"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
