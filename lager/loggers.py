@@ -1,16 +1,16 @@
-from datetime import datetime
-from typing import List, Optional, Set
+from datetime import UTC, datetime
 
 from lager.handlers import Handler
 from lager.verbosity import DEBUG, ERROR, INFO, WARNING, Verbosity
 
+
 class Logger:
     def __init__(
         self,
-        handlers: Optional[List[Handler]] = None,
+        handlers: list[Handler] | None = None,
     ) -> None:
         self._template: str = "{time} {verbosity}: {message}"
-        self.handlers: Set[Handler] = set(handlers) if handlers else set()
+        self.handlers: set[Handler] = set(handlers) if handlers else set()
 
     def debug(self, message: str) -> None:
         self._log(DEBUG, message)
@@ -26,7 +26,7 @@ class Logger:
 
     def _log(self, verbosity: Verbosity, message: str) -> None:
         context = {
-            "time": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "time": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S%z"),
             "verbosity": str(verbosity),
             "message": message,
         }

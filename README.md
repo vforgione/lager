@@ -5,24 +5,56 @@ Stupid Simple Logging 🍺
 ## Installation
 
 ```bash
-pip install git+git://github.com/vforgione/lager@main
+uv add https://github.com/vforgione/lager
 ```
 
 ## Usage
 
+Setup a logger with handlers:
+
 ```python
-from lager import *
+from lager import Logger, FileHandler, StdErrHandler, Verbosity
 
+logger = Logger(
+    handlers=[
+        FileHandler("/path/to/app.log", min_verbosity=Verbosity.DEBUG),
+        StdErrHandler(min_verbosity=Verbosity.WARNING),
+    ]
+)
+```
 
-info("My name is Vince.")
-# 2022-03-13T21:06:28Z INFO: My name is Vince.
+Or you can use the default logger (writes everything to STDERR):
 
-warning("I have a rash...")
-# 2022-03-13T21:06:33Z WARNING: I have a rash...
+```python
+from lager import logger
 
-error("And I'm contageous!")
-# 2022-03-13T21:06:37Z ERROR: And I'm contageous!
+logger.debug("This is a debug message")
+# 2024-11-30T16:55:47+0000 DEBUG: This is a debug message
 
-debug("jk lol")
-# 2022-03-13T21:06:42Z DEBUG: jk lol
+logger.info("This is an info message")
+# 2024-11-30T16:55:36+0000 INFO: This is an info message
+
+warning("This is a warning message")
+# 2024-11-30T16:55:39+0000 WARNING: This is a warning message
+
+logger.error("This is an error message")
+# 2024-11-30T16:55:44+0000 ERROR: This is an error message
+```
+
+Or you can use the default logger's methods directly:
+
+```python
+from lager import debug, info, warning, error
+
+debug("This is a debug message")
+# 2024-11-30T16:55:47+0000 DEBUG: This is a debug message
+
+info("This is an info message")
+# 2024-11-30T16:55:36+0000 INFO: This is an info message
+
+warning("This is a warning message")
+# 2024-11-30T16:55:39+0000 WARNING: This is a warning message
+
+error("This is an error message")
+# 2024-11-30T16:55:44+0000 ERROR: This is an error message
 ```

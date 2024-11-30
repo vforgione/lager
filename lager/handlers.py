@@ -1,22 +1,22 @@
 from abc import ABCMeta
-from io import TextIOWrapper
 from os import PathLike
 from sys import stderr, stdout
-from typing import Protocol, final
+from typing import Any, IO, Protocol, final
 
 from lager.verbosity import INFO, WARNING, Verbosity
 
 
 class Handler(Protocol):
-    def write(self, message: str, verbosity: Verbosity) -> None:
-        ...
+    def write(self, message: str, verbosity: Verbosity) -> None: ...
 
 
 class StreamHandler(metaclass=ABCMeta):
     def __init__(
         self,
-        stream: TextIOWrapper,
+        *,
+        stream: IO[Any],
         min_verbosity: Verbosity = INFO,
+        **_,
     ) -> None:
         self.stream = stream
         self.min_verbosity = min_verbosity
@@ -44,6 +44,7 @@ class FileHandler(StreamHandler):
     def __init__(
         self,
         path: PathLike,
+        *,
         mode: str = "a",
         encoding: str = "utf-8",
         errors: str = "strict",

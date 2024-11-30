@@ -1,8 +1,13 @@
-from .handlers import StdOutHandler
-from .loggers import Logger
-from .verbosity import DEBUG
+from lager.handlers import FileHandler, StdErrHandler, StdOutHandler
+from lager.loggers import Logger
+from lager.verbosity import DEBUG, Verbosity
 
 __all__ = [
+    "Logger",
+    "FileHandler",
+    "StdErrHandler",
+    "StdOutHandler",
+    "Verbosity",
     "logger",
     "debug",
     "info",
@@ -11,7 +16,7 @@ __all__ = [
 ]
 
 
-logger = Logger(handlers=[StdOutHandler(DEBUG)])
+logger = Logger(handlers=[StdErrHandler(DEBUG)])
 
 
 def debug(message: str) -> None:

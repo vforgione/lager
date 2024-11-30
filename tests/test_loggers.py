@@ -7,12 +7,12 @@ from lager.handlers import StreamHandler
 from lager.loggers import Logger
 from lager.verbosity import DEBUG
 
-time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z"
+time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{4}"
 
 
 class _testhandler(StreamHandler):
     def __init__(self):
-        super().__init__(StringIO(), DEBUG)
+        super().__init__(stream=StringIO(), min_verbosity=DEBUG)
 
 
 @fixture

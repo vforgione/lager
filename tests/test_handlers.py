@@ -8,7 +8,7 @@ from lager.verbosity import DEBUG, INFO
 
 class _testhandler(StreamHandler):
     def __init__(self):
-        super().__init__(StringIO(), INFO)
+        super().__init__(stream=StringIO(), min_verbosity=INFO)
 
 
 @fixture
